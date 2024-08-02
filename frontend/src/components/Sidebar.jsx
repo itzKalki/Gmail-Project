@@ -9,6 +9,9 @@ import {
 } from "react-icons/md";
 import { TbSend2 } from "react-icons/tb";
 import { IoMdStar } from "react-icons/io";
+import { useDispatch,useSelector } from "react-redux";
+import { setOpen } from "../redux/appSlice";
+
 const sidebarItems = [
   { icon: <MdInbox></MdInbox>, text: "Inbox" },
   { icon: <IoMdStar></IoMdStar>, text: "Starred" },
@@ -30,13 +33,16 @@ function createSidebarItem(items, index) {
   );
 }
 const Sidebar = () => {
+  // const { open } = useSelector((store) => store.app);
+  const dispatch = useDispatch();
+ 
   return (
     <div className="w-[15%]">
       <div className="p-3">
-        <button className="flex items-center gap-2 bg-[#C2E7FF] p-4 rounded-2xl hover:shadow-lg">
-          <LuPencil size={"25px"}></LuPencil>
-          Compose
-        </button>
+      <button onClick={()=> dispatch(setOpen(true))} className='flex items-center gap-2 bg-[#C2E7FF] p-4 rounded-2xl hover:shadow-md'>
+                    <LuPencil size="24px" />
+                    Compose
+                </button>
       </div>
       <div className="text-gray-600">{sidebarItems.map(createSidebarItem)}</div>
     </div>
