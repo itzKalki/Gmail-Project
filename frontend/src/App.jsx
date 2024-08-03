@@ -10,6 +10,8 @@ import Mail from "./components/Mail";
 import { RouterProvider } from "react-router-dom";
 import { createBrowserRouter } from "react-router-dom";
 import SendEmail from "./components/SendEmail";
+import Login from "./components/Login";
+import SignUp from "./components/SignUp";
 const appRouter = createBrowserRouter([
   {
     path: "/",
@@ -25,6 +27,14 @@ const appRouter = createBrowserRouter([
       },
     ],
   },
+  {
+    path:"/login",
+    element: <Login/>,
+  },
+  {
+    path:"/signup",
+    element: <SignUp/>,
+  }
 ]);
 function App() {
   // const [count, setCount] = useState(0);
