@@ -4,7 +4,7 @@ import { MdOutlineStarBorder } from "react-icons/md";
 import { useNavigate } from "react-router-dom";
 const mails = [
   {
-    name: "Rachna",
+    name: "rachna",
     content: "I am good how are you ",
     days: 5,
   },

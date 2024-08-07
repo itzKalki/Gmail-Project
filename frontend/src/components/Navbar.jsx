@@ -6,9 +6,10 @@ import { FaQuestion } from "react-icons/fa";
 import { IoIosSettings } from "react-icons/io";
 import { TbGridDots } from "react-icons/tb";
 import Avatar from "react-avatar";
+import { useSelector } from "react-redux";
 
 const Navbar = () => {
-  const user = false;
+  const {user}=useSelector(store=>store.app);
   return (
     <div className="flex items-center justify-between mx-3 h-16">
       <div className="flex items-center gap-16">

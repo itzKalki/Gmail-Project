@@ -3,14 +3,18 @@ import { createSlice } from "@reduxjs/toolkit";
 const appSlice = createSlice({
   name: "app",
   initialState: {
-    open: true, // default to false
+    open: false,
+    user: null, // default to false
   },
   reducers: {
     setOpen: (state, action) => {
       state.open = action.payload;
     },
+    setAuthUser: (state, action) => {
+      state.user = action.payload;
+    },
   },
 });
 
-export const { setOpen } = appSlice.actions;
+export const { setOpen,setAuthUser } = appSlice.actions;
 export default appSlice.reducer;

@@ -4,6 +4,7 @@ import connectDB from "./db/connectDB.js";
 import cookieParser from "cookie-parser";
 import cors from "cors";
 import userRoute from "./routes/user.route.js"
+import emailRoute from "./routes/email.route.js";
 dotenv.config({});
 connectDB();
 const app = express();
@@ -16,7 +17,7 @@ const corsOptions = {
 };
 app.use(cors(corsOptions));
 app.use("/api/v1/user",userRoute);
-// app.use("/api/v1/email",emailRoute);
+app.use("/api/v1/email",emailRoute);
 app.get("/", (req, res) => {
   res.send("Hello, world!");
 });

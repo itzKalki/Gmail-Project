@@ -12,5 +12,5 @@ const emailSchema=new mongoose.Schema({
         type:String,
         required:true
     },
-},{timeStamps})
+},{timeStamps:true})
 export const Email=mongoose.model("Email",emailSchema);

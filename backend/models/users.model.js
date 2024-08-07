@@ -12,9 +12,6 @@ const userSchema=new mongoose.Schema({
         type:String,
         required:true
     },
-    profile_photo:{
-        type:String,
-        required:true
-    },
+    
 },{timeStamps:true})
 export const User=mongoose.model("User",userSchema);

@@ -73,3 +73,18 @@ export const login = async (req, res) => {
     console.log(error);
   }
 };
+export const logout = async (req, res) => {
+  try {
+    // Clear the token cookie by setting its maxAge to 0
+    res.cookie("token", "", { maxAge: 0 });
+
+    // Send the JSON response after setting the cookie
+    return res.status(200).json({
+      message: "Logged Out Successfully. Kindly close the window",
+    });
+  } catch (error) {
+    console.log(error);
+    // Handle error response if needed
+    return res.status(500).json({ message: "Internal Server Error" });
+  }
+};
