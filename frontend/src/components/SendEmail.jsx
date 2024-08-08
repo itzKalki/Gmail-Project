@@ -27,6 +27,7 @@ const SendEmail = () => {
           className="outline-none py-1"
         />
         <textarea rows={10} col={20} className="outline-none py-1"></textarea>
+        <button type="submit" className="bg-blue-700 px-5 py-2 rounded-full w-fit text-white" >Send</button>
       </form>
     </div>
   );
