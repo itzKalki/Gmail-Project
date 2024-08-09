@@ -1,12 +1,45 @@
-import React from "react";
+import React, { useState } from "react";
 import { RxCross2 } from "react-icons/rx";
 import { useSelector, useDispatch } from "react-redux";
-import { setOpen } from "../redux/appSlice";
+import { setEmails, setOpen } from "../redux/appSlice";
+import axios from "axios";
+import { toast } from "react-hot-toast";
 const SendEmail = () => {
-  const { open } = useSelector(store => store.app);
-
+  const [formData, setFormData] = useState({
+    to: "",
+    subject: "",
+    message: "",
+  });
+  const { open,emails } = useSelector((store) => store.app);
   const dispatch = useDispatch();
- console.log(open);
+  // console.log(open);
+  const changeHandler = (e) => {
+    setFormData({ ...formData, [e.target.name]: e.target.value });
+  };
+  const submitHandler = async (e) => {
+    e.preventDefault();
+    try {
+      const res = await axios.post(
+        "http://localhost:3000/api/v1/email/create",
+        formData,
+        {
+          headers: {
+            "Content-Type": "application/json",
+          },
+          withCredentials: true,
+        }
+      );
+      console.log(res); // Log the entire response object
+      console.log(res.data); // Log the data property
+      dispatch(setEmails([...emails, res.data.email]));
+    } catch (error) {
+      console.log(error);
+      toast.error(error.response?.data?.message || 'An error occurred');
+    }
+    console.log(formData);
+    dispatch(setOpen(false));
+  };
+  
   return (
     <div
       className={`${
@@ -15,19 +48,41 @@ const SendEmail = () => {
     >
       <div className="flex items-center justify-between px-3 py-2 bg-[#F2F6FC]">
         <h1>New Message</h1>
-        <div onClick={()=>dispatch(setOpen(false))} className='p-2 rounded-full hover:bg-gray-200 hover:cursor-pointer'>
-                    <RxCross2 size="20px" />
-                </div>
+        <div
+          onClick={() => dispatch(setOpen(false))}
+          className="p-2 rounded-full hover:bg-gray-200 hover:cursor-pointer"
+        >
+          <RxCross2 size="20px" />
+        </div>
       </div>
-      <form action="" className="flex flex-col p-3 gap-2">
-        <input type="text" placeholder="To" className="outline-none py-1" />
+      <form onSubmit={submitHandler} className="flex flex-col p-3 gap-2">
         <input
+          onChange={changeHandler}
           type="text"
+          name="to"
+          placeholder="To"
+          className="outline-none py-1"
+        />
+        <input
+          onChange={changeHandler}
+          type="text"
+          name="subject"
           placeholder="Subject"
           className="outline-none py-1"
         />
-        <textarea rows={10} col={20} className="outline-none py-1"></textarea>
-        <button type="submit" className="bg-blue-700 px-5 py-2 rounded-full w-fit text-white" >Send</button>
+        <textarea
+          onChange={changeHandler}
+          rows={10}
+          col={20}
+          name="message"
+          className="outline-none py-1"
+        ></textarea>
+        <button
+          type="submit"
+          className="bg-blue-700 px-5 py-2 rounded-full w-fit text-white"
+        >
+          Send
+        </button>
       </form>
     </div>
   );

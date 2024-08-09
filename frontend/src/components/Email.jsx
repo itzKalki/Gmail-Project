@@ -1,58 +1,44 @@
 import React from "react";
 import { MdCropSquare } from "react-icons/md";
 import { MdOutlineStarBorder } from "react-icons/md";
+import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
-const mails = [
-  {
-    name: "rachna",
-    content: "I am good how are you ",
-    days: 5,
-  },
-  {
-    name: "Divita",
-    content: "I do not know you ",
-    days: 10,
-  },
-  {
-    name: "Kalki",
-    content: "Self mail",
-    days: 15,
-  },
-  {
-    name: "Lord Shree Ram",
-    content: "Bless you son ",
-    days: 20,
-  },
-];
-const Email = () => {
+// import { useDispatch } from "react-redux";
+import { setSelectedEmail } from "../redux/appSlice";
+const Email = ({ email }) => {
   const navigate = useNavigate();
-  function openMail() {
-    navigate("/mail/1234")
+  const dispatch=useDispatch();
+  const openMail=()=> {
+    dispatch(setSelectedEmail(email));
+    navigate(`/mail/${email._id}`);
   }
-  return mails.map((items, index) => {
-    return (
+
+  return (
+    <>
       <div
         onClick={openMail}
-        className="flex items-center justify-between border-b border-gray-200 px-4 py-3 hover:cursor-pointer "
+        className="flex items-center justify-between border-b border-gray-200 px-4 py-3 text-sm hover:cursor-pointer hover:shadow-md"
       >
-        <div className="flex items-center gap-2">
-          <div>
-            <MdCropSquare></MdCropSquare>
+        <div className="flex items-center gap-3">
+          <div className="text-gray-400">
+            <MdCropSquare size={"20px"} />
+          </div>
+          <div className="text-gray-400">
+            <MdOutlineStarBorder size={"20px"} />
           </div>
           <div>
-            <MdOutlineStarBorder></MdOutlineStarBorder>
-          </div>
-          <div>
-            <h1>{items.name}</h1>
+            <h1 className="font-semibold">{email?.subject}</h1>
           </div>
         </div>
         <div className="flex-1 ml-4">
-          <p>{items.content}</p>
+          <p>{email?.message}</p>
         </div>
-        <div className="flex-none text-gray text-sm">{items.days} days ago</div>
+        <div className="flex-none text-gray text-sm">
+          <p>{email?.createdAt}</p>
+        </div>
       </div>
-    );
-  });
+    </>
+  );
 };
 
 export default Email;
