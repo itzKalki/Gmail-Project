@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 // import {GitHamburgerMenu } from "react-icons/gi";
 import { GiHamburgerMenu } from "react-icons/gi";
 import { CiSearch } from "react-icons/ci";
@@ -6,10 +6,34 @@ import { FaQuestion } from "react-icons/fa";
 import { IoIosSettings } from "react-icons/io";
 import { TbGridDots } from "react-icons/tb";
 import Avatar from "react-avatar";
-import { useSelector } from "react-redux";
-
+import { useDispatch, useSelector } from "react-redux";
+import { setAuthUser, setSearchText } from "../redux/appSlice";
+import axios from "axios";
+import toast from "react-hot-toast";
+import { useNavigate } from "react-router-dom";
 const Navbar = () => {
-  const {user}=useSelector(store=>store.app);
+  const [text, setText] = useState("");
+  const { user } = useSelector(store => store.app);
+  const dispatch = useDispatch();
+  const navigate=useNavigate();
+  const logoutHandler=async()=>{
+    try {
+      const res=await axios.get("http://localhost:3000/api/v1/user/logout",
+        {
+          withCredentials:true
+        }
+      )
+      toast.success(res.data.message);
+      dispatch(setAuthUser(null));
+      navigate("/login");
+    } catch (error) {
+      console.log(error);
+      
+    }
+  }
+  useEffect(() => {
+    dispatch(setSearchText(text));
+}, [text]);
   return (
     <div className="flex items-center justify-between mx-3 h-16">
       <div className="flex items-center gap-16">
@@ -33,10 +57,10 @@ const Navbar = () => {
               <CiSearch size={24} className="text-gray-700" />
               <input
                 type="text"
-                name=""
-                id=""
+                value={text}
+                onChange={(e) => setText(e.target.value)}
                 placeholder="Search Mail"
-                className="rounded-full w-full bg-transparent"
+                className="rounded-full w-full bg-transparent outline-none"
               />
             </div>
           </div>
@@ -51,6 +75,9 @@ const Navbar = () => {
               <TbGridDots />
             </div>
             <div className="p-2 rounded-full hover:bg-gray-200 cursor-pointer">
+              <button onClick={logoutHandler}
+              className="underline cursor-pointer"
+              >Logout</button>
               <Avatar
                 src="https://wallpapers.com/images/hd/cool-profile-picture-paper-bag-head-4co57dtwk64fb7lv.jpg"
                 size="40"

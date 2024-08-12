@@ -42,7 +42,7 @@ function App() {
 
   return (
     <>
-      <Navbar></Navbar>
+
       <RouterProvider router={appRouter} />
 
       <div className="absolute w-[30%] bottom-0 right-20 z-10">
